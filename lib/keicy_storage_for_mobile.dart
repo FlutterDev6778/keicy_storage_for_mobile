@@ -22,7 +22,7 @@ class KeicyStorageForMobile {
       streamSubscription.cancel();
       return await storageReference.getDownloadURL();
     } catch (e) {
-      return "unknown";
+      return null;
     }
   }
 
@@ -37,12 +37,14 @@ class KeicyStorageForMobile {
       uploadTask.cancel();
       return await storageReference.getDownloadURL();
     } catch (e) {
-      return "unknown";
+      return null;
     }
   }
 
   String _getValidatedFileName(String fileName) {
+    if (fileName == null || fileName == "") return "${Random().nextInt(10000000).toString()}";
     var listFileName = fileName.split('.');
+    if (listFileName.length == 1) return "${fileName}_${Random().nextInt(10000000).toString()}";
     String extention = listFileName[listFileName.length - 1];
     String fName = fileName.substring(0, fileName.length - extention.length - 2);
     return "${fName}_${Random().nextInt(10000000).toString()}.$extention";
