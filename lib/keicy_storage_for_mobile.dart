@@ -26,13 +26,12 @@ class KeicyStorageForMobile {
     }
   }
 
-  StreamSubscription<StorageTaskEvent> uploadFileObjectWithStream({@required String path, @required String fileName, @required File file}) {
+  StorageUploadTask uploadFileObjectWithTask({@required String path, @required String fileName, @required File file}) {
     try {
       fileName = _getValidatedFileName(fileName);
       StorageReference storageReference = FirebaseStorage.instance.ref().child("$path$fileName");
       StorageUploadTask uploadTask = storageReference.putFile(file);
-      StreamSubscription<StorageTaskEvent> streamSubscription = uploadTask.events.listen((event) {});
-      return streamSubscription;
+      return uploadTask;
     } catch (e) {
       return null;
     }
