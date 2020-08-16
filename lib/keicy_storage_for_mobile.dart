@@ -60,4 +60,13 @@ class KeicyStorageForMobile {
     String fName = fileName.substring(0, fileName.length - extention.length - 2);
     return "${fName}_${Random().nextInt(10000000).toString()}.$extention";
   }
+
+  Future<bool> deleteFile({@required String path}) async {
+    try {
+      await FirebaseStorage.instance.ref().child(path).delete();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }
