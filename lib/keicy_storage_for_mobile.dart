@@ -7,6 +7,7 @@ import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:keicy_utils/validators.dart';
 
 class KeicyStorageForMobile {
   static KeicyStorageForMobile _instance = KeicyStorageForMobile();
@@ -63,7 +64,8 @@ class KeicyStorageForMobile {
 
   Future<bool> deleteFile({@required String path}) async {
     try {
-      await FirebaseStorage.instance.ref().child(path).delete();
+      String storageUrl = Uri.decodeFull(path.split(KeicyValidators.firebaseStorageFileRegExp)[1]);
+      await FirebaseStorage.instance.ref().child(storageUrl).delete();
       return true;
     } catch (e) {
       return false;
